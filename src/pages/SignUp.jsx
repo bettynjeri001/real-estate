@@ -1,89 +1,100 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaLock, FaUserShield, FaSpinner } from 'react-icons/fa';
-import { useAuth } from '../context/AuthContext';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiUser, FiMail, FiLock, FiAlertCircle } from "react-icons/fi";
+
+import { useAuth } from "../context/AuthContext";
 
 export default function Signup() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('user');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user");
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { signup, currentUser, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (currentUser) {
-      navigate(currentUser.role === 'admin' ? '/admin/dashboard' : '/user/dashboard');
+      navigate(
+        currentUser.role === "admin" ? "/" : "/"
+      );
     }
   }, [currentUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       await signup(email, password, name, role);
-      // Navigation is now handled by the useEffect above
     } catch (err) {
-      let errorMessage = 'Registration failed. Please try again.';
-      
-      if (err.code === 'auth/email-already-in-use') {
-        errorMessage = 'This email is already registered';
-      } else if (err.code === 'auth/weak-password') {
-        errorMessage = 'Password must be at least 6 characters';
-      } else if (err.code === 'auth/invalid-email') {
-        errorMessage = 'Please enter a valid email address';
+      let errorMessage = "Registration failed. Please try again.";
+      if (err.code === "auth/email-already-in-use") {
+        errorMessage = "This email is already registered";
+      } else if (err.code === "auth/weak-password") {
+        errorMessage = "Password must be at least 6 characters";
+      } else if (err.code === "auth/invalid-email") {
+        errorMessage = "Please enter a valid email address";
       }
-      
       setError(errorMessage);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Header */}
-        <div className="bg-blue-600 py-6 px-8 text-center">
-          <h1 className="text-3xl font-bold text-white">Create Account</h1>
-          <p className="text-blue-100 mt-1"></p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full max-w-md bg-white rounded-2xl shadow-sm p-8"
+      >
+        <div className="text-center mb-8">
+          <div className="mx-auto mb-4 flex justify-center">
+            <svg
+              className="w-12 h-12 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 4v16m8-8H4M18 10l-4 4-4-4"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Create Account
+          </h1>
+          <p className="text-gray-500">Get started with your free account</p>
         </div>
 
-        {/* Form */}
-        <div className="p-8">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="mb-6 bg-red-50 text-red-700 p-3 rounded-lg border border-red-200 flex items-center">
-              <svg 
-                className="w-5 h-5 mr-2" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-                />
-              </svg>
-              {error}
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center p-3 bg-red-50 text-red-700 rounded-lg"
+            >
+              <FiAlertCircle className="flex-shrink-0 mr-2" />
+              <span className="text-sm">{error}</span>
+            </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-blue-800 mb-1">Username</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                UserName
+              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <FaUser className="text-blue-400" />
-                </div>
+                <FiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Username"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                  placeholder="John Doe"
                   required
                   minLength="2"
                 />
@@ -91,96 +102,99 @@ export default function Signup() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-blue-800 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <FaEnvelope className="text-blue-400" />
-                </div>
+                <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
                   placeholder="your@email.com"
                   required
-                  autoComplete="username"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-blue-800 mb-1">Password</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <FaLock className="text-blue-400" />
-                </div>
+                <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
                   placeholder="••••••••"
                   required
                   minLength="6"
-                  autoComplete="new-password"
                 />
-              </div>
-              <p className="mt-1 text-xs text-blue-500">At least 6 characters</p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-blue-800 mb-1">Account Type</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <FaUserShield className="text-blue-400" />
-                </div>
-                <select
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  className="w-full pl-10 pr-3 py-2 appearance-none border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                  required
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-600"
                 >
-                  <option value="user"> User</option>
-                  <option value="admin">Admin</option>
-              
-            
-                </select>
+                  {showPassword ? "Hide" : "Show"}
+                </button>
               </div>
+              <p className="mt-1 text-xs text-gray-500">Minimum 6 characters</p>
             </div>
+          </div>
 
-            <button
-              type="submit"
-              disabled={authLoading}
-              className={`w-full flex justify-center items-center py-3 px-4 rounded-lg font-medium text-white ${
-                authLoading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-              } transition duration-200`}
-            >
-              {authLoading ? (
-                <>
-                  <FaSpinner className="animate-spin mr-2" />
-                  Creating Account...
-                </>
-              ) : (
-                'Sign Up'
-              )}
-            </button>
-          </form>
+          <button
+            type="submit"
+            disabled={authLoading}
+            className="w-full py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all flex items-center justify-center"
+          >
+            {authLoading ? (
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Creating Account...
+              </>
+            ) : (
+              "Sign Up"
+            )}
+          </button>
+        </form>
 
-          <div className="mt-6 text-center text-sm text-blue-800">
-            Already have an account?{' '}
-            <a 
-              href="/login" 
-              className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+        <div className="mt-0">
+          <div className="mt-6 text-center">
+            <a
+              href="#"
+              className="text-sm font-medium text-red-600 hover:text-red-500"
               onClick={(e) => {
                 e.preventDefault();
-                navigate('/login');
+                navigate("/login");
               }}
             >
-              Sign In
+              Sign in to your account
             </a>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
