@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
-import { FiSearch, FiHome, FiMapPin, FiDollarSign, FiSliders } from 'react-icons/fi';
+import React from 'react';
+import{ useState, useEffect } from 'react';
+import { FiSearch, FiHome, FiMapPin, FiDollarSign, FiAlertCircle, FiHeart, FiPhoneCall, FiVoicemail } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
   const [selectedCity, setSelectedCity] = useState('london');
@@ -25,12 +29,13 @@ const Home = () => {
       city: 'london',
       type: 'house',
       title: "Mayfair Luxury ",
-      price: 85000,
+      price: 850000,
       location: "Mayfair, London",
       bedrooms: 4,
       bathrooms: 5,
       size: 120,
-      image: ""
+      image:"https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bHV4dXJ5JTIwaG91c2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+  
     },
     {
       id: 2,
@@ -42,7 +47,7 @@ const Home = () => {
       bedrooms: 4,
       bathrooms: 5,
       size: 350,
-      image: ""
+      image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bHV4dXJ5JTIwYXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 3,
@@ -54,7 +59,7 @@ const Home = () => {
       bedrooms: 2,
       bathrooms: 3,
       size: 400,
-      image: ""
+      image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
   
     // Tokyo
@@ -68,7 +73,7 @@ const Home = () => {
       bedrooms: 2,
       bathrooms: 1,
       size: 100,
-      image: ""
+      image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 5,
@@ -80,7 +85,7 @@ const Home = () => {
       bedrooms: 3,
       bathrooms: 2,
       size: 180,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 6,
@@ -88,11 +93,11 @@ const Home = () => {
       type: 'villa',
       title: "Sano Villa",
       price: 180000,
-      location: "Greayer Tokyo, Tokyo",
+      location: "Greater Tokyo, Tokyo",
       bedrooms: 4,
       bathrooms: 3,
       size: 300,
-      image: ""
+      image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHZpbGxhfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
   
     // New York
@@ -106,7 +111,7 @@ const Home = () => {
       bedrooms: 2,
       bathrooms: 1,
       size: 110,
-      image: ""
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 8,
@@ -118,7 +123,7 @@ const Home = () => {
       bedrooms: 3,
       bathrooms: 2,
       size: 200,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGhvdXNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 9,
@@ -130,7 +135,7 @@ const Home = () => {
       bedrooms: 4,
       bathrooms: 3,
       size: 280,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHZpbGxhfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
   
     // Cali
@@ -144,7 +149,7 @@ const Home = () => {
       bedrooms: 2,
       bathrooms: 1,
       size: 100,
-      image: ""
+      image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 11,
@@ -156,7 +161,7 @@ const Home = () => {
       bedrooms: 3,
       bathrooms: 2,
       size: 190,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 12,
@@ -168,7 +173,7 @@ const Home = () => {
       bedrooms: 4,
       bathrooms: 3,
       size: 310,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGhvdXNlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
   
     // Nairobi
@@ -182,7 +187,7 @@ const Home = () => {
       bedrooms: 2,
       bathrooms: 1,
       size: 105,
-      image: ""
+      image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXBhcnRtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 14,
@@ -194,7 +199,7 @@ const Home = () => {
       bedrooms: 3,
       bathrooms: 2,
       size: 220,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aG91c2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
     },
     {
       id: 15,
@@ -206,7 +211,7 @@ const Home = () => {
       bedrooms: 4,
       bathrooms: 3,
       size: 290,
-      image: ""
+      image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHZpbGxhfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     }
   ];
   
@@ -241,7 +246,9 @@ const Home = () => {
 
   useEffect(() => {
     fetchApartments();
-  }, []);
+  }, [selectedCity, priceRange, propertyType]);
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -250,7 +257,7 @@ const Home = () => {
         <div className="absolute inset-0">
           <img 
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" 
-            alt="Kenyan City" 
+            alt="City" 
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/50" />
@@ -269,7 +276,7 @@ const Home = () => {
           </p>
           <button
             onClick={() => document.querySelector('#searchSection').scrollIntoView({ behavior: 'smooth' })}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg text-lg font-medium"
+            className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg text-lg font-medium"
           >
             Start Searching
           </button>
@@ -309,7 +316,7 @@ const Home = () => {
               {/* Price Range */}
               <div className="min-w-[250px]">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Price Range (KSh)
+                  Price Range (USD)
                 </label>
                 <div className="relative">
                   <FiDollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -355,7 +362,7 @@ const Home = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="self-end h-[52px] px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all flex items-center gap-2"
+                className="self-end h-[52px] px-6 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-all flex items-center gap-2"
               >
                 <FiSearch className="text-lg" />
                 {loading ? 'Searching...' : 'Search'}
@@ -415,18 +422,32 @@ const Home = () => {
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
                       {apartment.title}
                     </h3>
-                    <div className="flex items-center gap-2 text-indigo-600 mb-3">
+                    <div className="flex items-center gap-2 text-red-600 mb-3">
                       <FiDollarSign />
-                      <span className="font-medium">KSh {apartment.price.toLocaleString()}/month</span>
+                      <span className="font-medium">USD {apartment.price.toLocaleString()}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600 mb-4">
                       <FiMapPin />
                       <span>{apartment.location}</span>
                     </div>
-                    <div className="flex gap-4 text-sm text-gray-500">
+                    <div className="flex gap-4 text-sm text-red-700">
                       <span>{apartment.bedrooms} beds</span>
                       <span>{apartment.bathrooms} baths</span>
                       <span>{apartment.size} sq.m</span>
+                      <button
+                type="submit"
+                className="self-end h-[52px] px-4 bg-red-400 hover:bg-red-500 text-white font-small rounded-lg transition-all flex items-center gap-1"
+              >
+                <FiHeart className="text-2xl" />
+                {'Add to Wishlist'}
+                
+              </button>
+              <button 
+      onClick={() => navigate('./pages/ContactPage')}
+      className="bg-red-400 hover:bg-red-500 text-white px-4 py-2 rounded"
+    >
+      Contact Agent
+    </button>
                     </div>
                   </div>
                 </motion.div>

@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-
+import { motion } from 'framer-motion';
 import { FiUser, FiLogOut, FiSun, FiMoon, FiHome, FiInfo, FiMail, FiMapPin } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext"; 
 import logo from "../assets/logo.png"; 
@@ -16,7 +16,6 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
 
   const navLinks = [
     { path: "/", name: "Home", icon: <FiHome className="mr-2 text-red-500" /> },
-    { path: "/about", name: "About", icon: <FiInfo className="mr-2 text-red-500" /> },
     { path: "/contact", name: "Contact", icon: <FiMail className="mr-2 text-red-500" /> },
   ];
 
@@ -31,8 +30,8 @@ const Navbar = ({ isDarkMode, setIsDarkMode }) => {
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <img className="w-12 h-12" src={logo} alt="logo" />
-            <span className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+            <img className="w-14 h-14" src={logo} alt="logo" />
+            <span className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Add<span className="text-red-500">ressly</span>
             </span>
           </Link>

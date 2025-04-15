@@ -9,10 +9,17 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import UserDashboard from "./pages/UserDashboard";
 import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
+import ContactPage from "./pages/ContactPage";
+import Footer from "./components/Footer";
+
+
 
 function App() {
   return (
     <AuthProvider>
+      <Footer/>
+      <Navbar/>
       <Routes>
         {/* Wrap all routes with Layout */}
         <Route path="/" element={<Layout />}>
@@ -21,6 +28,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="contact-page" element={<ContactPage/>} />
+          
 
           {/* Protected User Routes */}
           <Route element={<PrivateRoute />}>
